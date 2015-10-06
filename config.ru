@@ -8,7 +8,10 @@ InvalidTokenError = Class.new(Exception)
 get '/' do
   raise(InvalidTokenError) unless params[:token] == ENV['SLACK_TOKEN']
   text = params.fetch('text').strip
-  return EasyTranslate.translate(text, :from => :spanish, :to => :en)
+
+  to = params.fetch('language_to', :en)
+
+  return EasyTranslate.translate(text, :to => to)
 end
 
 run Sinatra::Application
